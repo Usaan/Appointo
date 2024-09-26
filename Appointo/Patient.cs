@@ -3,7 +3,8 @@ namespace Appointo
     class Patient : Person
     {
         public Doctor DoctorData { get; set; }
-        // Aqui vai um instanciamento da lista de consultas (fazer como private)
+
+        private List<Appointment> _appointments = new();
 
         public Patient(int idPatient)
         {
@@ -25,7 +26,33 @@ namespace Appointo
             persons.Remove(persons.Find(patient => patient.Id == selectedId));
         }
 
-        // aqui vai um método público p agentar as consultas pegando a lista de consultas e percorrendo ela na 
-        // mesma lógica que o método save de Person
+        public void ScheduleAppointment(int appointmentId, Doctor doctor, DateTime date, string reason)
+        {
+            Appointment newAppointment = new Appointment(appointmentId, this, doctor, date, reason);
+            _appointments.Add(newAppointment);
+        }
+
+        public void CancelAppointment(int appointmentId)
+        {
+            Appointment appointment = _appointments.Find(a => a.AppointmentId == appointmentId);
+            if (appointment != null)
+            {
+                appointment.ChangeStatus(AppointmentStatus.Canceled);
+            }
+        }
+
+        public List<Appointment> GetAppointments()
+        {
+            return _appointments;
+        }
+
+        public void CompleteAppointment(int appointmentId)
+        {
+            Appointment appointment = _appointments.Find(a => a.AppointmentId == appointmentId);
+            if (appointment != null)
+            {
+                appointment.ChangeStatus(AppointmentStatus.Completed); 
+            }
+        }
     }
 }

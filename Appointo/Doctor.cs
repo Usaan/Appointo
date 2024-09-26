@@ -5,7 +5,7 @@ namespace Appointo
         public string Specialization { get; set; }
         public string HelthPlan { get; set; }
 
-        public Doctor(int idDoctor)
+        public Doctor(int idDoctor) :base()
         {
             Id = idDoctor;
         }
